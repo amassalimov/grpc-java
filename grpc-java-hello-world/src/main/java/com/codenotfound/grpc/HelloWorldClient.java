@@ -2,6 +2,7 @@ package com.codenotfound.grpc;
 
 import javax.annotation.PostConstruct;
 
+import com.codenotfound.grpc.helloworld.NumText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -28,13 +29,14 @@ public class HelloWorldClient {
                 HelloWorldServiceGrpc.newBlockingStub(managedChannel);
     }
 
-    public String sayHello(String firstName, String lastName, boolean invertOrder) {
-        final Person person;
-        if (invertOrder) {
-            person = Person.newBuilder().setLastName(lastName).setFirstName(firstName).build();
-        } else {
-            person = Person.newBuilder().setFirstName(firstName).setLastName(lastName).build();
-        }
+    public String sayHello(String firstName, String lastName, NumText numText) {
+        Person.Builder builder = Person.newBuilder();
+        if (firstName != null) builder.setFirstName(firstName);
+        if (lastName != null) builder.setLastName(lastName);
+        if (numText != null) builder.setNumText(numText);
+
+        final Person person = builder.build();
+
         LOGGER.info("client sending {}", person);
 
         Greeting greeting = helloWorldServiceBlockingStub.sayHello(person);

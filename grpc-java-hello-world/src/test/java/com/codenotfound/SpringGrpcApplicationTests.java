@@ -2,6 +2,7 @@ package com.codenotfound;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.codenotfound.grpc.helloworld.NumText;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,14 @@ public class SpringGrpcApplicationTests {
 
     @Test
     public void testSayHello() {
-        String response = helloWorldClient.sayHello("John", "Doe", false);
-        assertThat(response).isEqualTo("Hello Doe!");
+        final String responseDoe = helloWorldClient.sayHello(null, "Doe", null);
+        assertThat(responseDoe).isEqualTo("Hello Doe!");
 
-        String responseInverted = helloWorldClient.sayHello("John", "Doe", true);
-        assertThat(responseInverted).isEqualTo("Hello John!");
+        final String responseJohn = helloWorldClient.sayHello("John", null, null);
+        assertThat(responseJohn).isEqualTo("Hello John!");
+
+        final NumText numText = NumText.newBuilder().setNum(27).setText("Jahre").build();
+        String responseNumText = helloWorldClient.sayHello(null, null, numText);
+        assertThat(responseNumText).isEqualTo("Hello 27 Jahre!");
     }
 }

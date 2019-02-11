@@ -34,12 +34,14 @@ public class HelloWorldServiceImpl
     private String getOneOf(@Nullable Person person) {
         if (person == null) return "";
 
-        switch (person.getAskarMassalimovCase()) {
+        switch (person.getIdentCase()) {
             case FIRST_NAME:
                 return person.getFirstName();
             case LAST_NAME:
                 return person.getLastName();
-            case ASKARMASSALIMOV_NOT_SET:
+            case NUM_TEXT:
+                return person.getNumText().getNum() + " " + person.getNumText().getText();
+            case IDENT_NOT_SET:
             default:
                 return "";
         }
