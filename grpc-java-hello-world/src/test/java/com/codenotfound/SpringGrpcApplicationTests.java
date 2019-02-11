@@ -1,6 +1,7 @@
 package com.codenotfound;
 
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,12 +13,15 @@ import com.codenotfound.grpc.HelloWorldClient;
 @SpringBootTest
 public class SpringGrpcApplicationTests {
 
-  @Autowired
-  private HelloWorldClient helloWorldClient;
+    @Autowired
+    private HelloWorldClient helloWorldClient;
 
-  @Test
-  public void testSayHello() {
-    assertThat(helloWorldClient.sayHello("John", "Doe"))
-        .isEqualTo("Hello John Doe!");
-  }
+    @Test
+    public void testSayHello() {
+        String response = helloWorldClient.sayHello("John", "Doe", false);
+        assertThat(response).isEqualTo("Hello Doe!");
+
+        String responseInverted = helloWorldClient.sayHello("John", "Doe", true);
+        assertThat(responseInverted).isEqualTo("Hello John!");
+    }
 }
